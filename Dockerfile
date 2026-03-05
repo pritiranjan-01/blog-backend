@@ -1,14 +1,17 @@
-# Use official Java image
-FROM eclipse-temurin:21-jdk
+# Build stage
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
 COPY . .
 
-# Build the application
-RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-# Run the jar
-CMD ["sh", "-c", "java -jar target/*.jar --server.port=$PORT"]
+# Run stage
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
+CMD ["sh", "-c", "java -jar app.jar --server.port=$PORT"]
