@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -25,7 +23,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<String>> login(@Valid @RequestBody AuthRequestDto request) {
         String token = authService.login(request);
-        return ResponseEntity.ok(ApiResponse.success("Access token generated successfully",token));
+        return ResponseEntity.ok(ApiResponse.success("Access token generated successfully", token));
     }
 }
-

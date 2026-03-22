@@ -9,7 +9,6 @@ import com.pritiranjan.blog.repository.BlogRepository;
 import com.pritiranjan.blog.repository.CategoryRepository;
 import com.pritiranjan.blog.service.BlogService;
 import com.pritiranjan.blog.util.SlugUtil;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +31,8 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogResponseDto createBlog(BlogRequestDto request) {
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
 
         String slug = generateUniqueSlug(request.getTitle());
 
@@ -56,7 +56,8 @@ public class BlogServiceImpl implements BlogService {
                 .orElseThrow(() -> new ResourceNotFoundException("Blog not found with id: " + id));
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
 
         blog.setTitle(request.getTitle());
         blog.setContent(request.getContent());
@@ -83,11 +84,11 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional(readOnly = true)
     public List<BlogResponseDto> getPublishedBlogs(Pageable pageable) {
-      return blogRepository.findByPublishedTrue(pageable)
-                            .getContent()
-                            .stream()
-                            .map(blog -> mapToDto(blog))
-                            .collect(Collectors.toList());
+        return blogRepository.findByPublishedTrue(pageable)
+                .getContent()
+                .stream()
+                .map(blog -> mapToDto(blog))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -135,4 +136,3 @@ public class BlogServiceImpl implements BlogService {
                 .build();
     }
 }
-
