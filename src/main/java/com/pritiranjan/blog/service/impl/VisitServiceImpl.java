@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class VisitServiceImpl implements VisitService {
                 .userAgent(userAgent)
                 .pageUrl(pageUrl)
                 .referrer(referrer)
-                .visitedAt(LocalDateTime.now())
+                .visitedAt(Instant.now())
                 .build();
 
         Visit saved = visitRepository.save(visit);

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
+        body.put("timestamp", Instant.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
 
         Map<String, String> errors = new HashMap<>();
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
+        body.put("timestamp", Instant.now());
         body.put("status", status.value());
         body.put("error", status.getReasonPhrase());
         body.put("message", message);

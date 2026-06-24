@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -52,12 +52,12 @@ public class Visit {
     private String referrer;
 
     @Column(name = "visited_at", nullable = false)
-    private LocalDateTime visitedAt;
+    private Instant visitedAt;
 
     @PrePersist
     public void prePersist() {
         if (visitedAt == null) {
-            visitedAt = LocalDateTime.now();
+            visitedAt = Instant.now();
         }
     }
 }

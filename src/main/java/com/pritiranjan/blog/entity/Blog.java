@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -42,10 +42,10 @@ public class Blog {
     private boolean published;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -53,7 +53,7 @@ public class Blog {
 
     @PrePersist
     public void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         if (createdAt == null) {
             createdAt = now;
         }
@@ -64,7 +64,7 @@ public class Blog {
 
     @PreUpdate
     public void preUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = Instant.now();
     }
 }
 
